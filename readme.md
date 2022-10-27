@@ -49,6 +49,8 @@ pip install -r requirements.txt
 pip3 freeze > requirements.txt
 ```
 
+6. Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) for running pdf on GUI
+
 ### How to Run
 
 1. Activate virtual env.
