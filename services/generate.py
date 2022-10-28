@@ -10,27 +10,31 @@ private_key = rsa.generate_private_key(
     key_size=2048
 )
 
-encrypted_pem_private_key = private_key.private_bytes(
-    encoding=serialization.Encoding.PEM,
-    format=serialization.PrivateFormat.PKCS8,
-    encryption_algorithm=serialization.BestAvailableEncryption(private_key_pass)
-)
-
-pem_public_key = private_key.public_key().public_bytes(
-  encoding=serialization.Encoding.PEM,
-  format=serialization.PublicFormat.SubjectPublicKeyInfo
-)
-
 now = datetime.now()
-ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 5))    
+date_time = now.strftime("%Y-%m-%d-%H-%M-%S")
+rand = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 5))
 
-# convert to string
-date_time = now.strftime("%Y-%m-%d")
+class Generate:
+    def generate_private_key():
+        encrypted_pem_private_key = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.BestAvailableEncryption(private_key_pass)
+        )
+        private_key_file = open(date_time + "_" + rand + "_privkey.pem", "w")
+        private_key_file.write(encrypted_pem_private_key.decode())
+        private_key_file.close()
+        return "Done"
 
-private_key_file = open(date_time + "_" + ran + "_privkey.pem", "w")
-private_key_file.write(encrypted_pem_private_key.decode())
-private_key_file.close()
+    def generate_public_key():
+        pem_public_key = private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        public_key_file = open(date_time + "_" + rand + "_pubkey.pub", "w")
+        public_key_file.write(pem_public_key.decode())
+        public_key_file.close()
+        return "Done"
 
-public_key_file = open(date_time + "_" + ran + "_pubkey.pub", "w")
-public_key_file.write(pem_public_key.decode())
-public_key_file.close()
+Generate.generate_private_key()
+Generate.generate_public_key()
