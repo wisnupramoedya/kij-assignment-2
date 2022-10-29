@@ -66,7 +66,7 @@ pip3 freeze > requirements.txt
 python signing.py
 
 # for verification
-python verification.py
+python verificating.py
 ```
 
 ## Author's Note
