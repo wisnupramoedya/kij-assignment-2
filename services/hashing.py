@@ -1,6 +1,8 @@
 from Crypto.Hash import SHA256
 
+
 class Hashing:
+    @staticmethod
     def hash_sha256(path_file: str) -> bytes:
         f = open(path_file, "br")
         sha = SHA256.new()
@@ -10,8 +12,9 @@ class Hashing:
                 break
             sha.update(data)
         f.close()
-        return sha.hexdigest()
+        return sha.hexdigest().encode()
 
-path_file = "../testcase/test-paper.pdf"
 
-print(Hashing.hash_sha256(path_file.encode()))
+filepath = "../testcase/test-paper.pdf"
+
+print(Hashing.hash_sha256(filepath))
