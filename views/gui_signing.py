@@ -5,12 +5,12 @@ from tkinter import messagebox
 import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
-from constants.file import BLANK_STRING, PDF_FILE_TYPE, PEM_FILE_TYPE, SIGNING_APP
+from constants.file import BLANK_STRING, PDF_FILE_TYPE, PUB_FILE_TYPE, SIGNING_APP
 
 
 title_window = SIGNING_APP
 pdf_filepath = BLANK_STRING
-pem_filepath = BLANK_STRING
+pub_filepath = BLANK_STRING
 
 
 def gui_on():
@@ -57,15 +57,15 @@ def gui_on():
     def open_pub_key():
         """Open the public key for signing in the PDF"""
         filepath = askopenfilename(
-            filetypes=PEM_FILE_TYPE
+            filetypes=PUB_FILE_TYPE
         )
         if not filepath:
             return
 
-        global pem_filepath
-        pem_filepath = filepath
+        global pub_filepath
+        pub_filepath = filepath
 
-        with open(pem_filepath, "r") as file:
+        with open(pub_filepath, "r") as file:
             sct_pub_key.configure(state='normal')
             sct_pub_key.insert(1.0, file.read())
             sct_pub_key.configure(state='disabled')
@@ -78,8 +78,8 @@ def gui_on():
                 "Warning", f"{PDF_FILE_TYPE[0][0]} should be inputted!")
             return
 
-        global pem_filepath
-        if not pem_filepath:
+        global pub_filepath
+        if not pub_filepath:
             messagebox.showwarning(
                 "Warning", f"Public key should be inputted!")
             return
@@ -95,7 +95,7 @@ def gui_on():
         shutil.copyfile(pdf_filepath, filepath)
 
         messagebox.showinfo(
-            "Success", f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pem_filepath)}")
+            "Success", f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
 
     btn_open.configure(command=open_file)
     btn_pub_key.configure(command=open_pub_key)

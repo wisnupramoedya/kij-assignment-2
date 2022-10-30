@@ -21,7 +21,7 @@ class Encryption:
         return cipher.decrypt(data)
 
 
-public_key_filepath = "E:\Sekolah\Tugas Kuliah\Semester 7\KIJ\Assignment 2\sign-and-verif-app\\testcase\\test-public-key.pem"
+public_key_filepath = "E:\Sekolah\Tugas Kuliah\Semester 7\KIJ\Assignment 2\sign-and-verif-app\\testcase\\test-public-key.pub"
 private_key_filepath = "E:\Sekolah\Tugas Kuliah\Semester 7\KIJ\Assignment 2\sign-and-verif-app\\testcase\\test-private-key.pem"
 plain_text = "Hello Signing".encode()
 
