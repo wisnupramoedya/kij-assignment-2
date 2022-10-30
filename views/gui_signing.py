@@ -1,13 +1,16 @@
 import shutil
+import os
 import tkinter as tk
+from tkinter import messagebox
+import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
+from constants.file import BLANK_STRING, PDF_FILE_TYPE, PEM_FILE_TYPE, SIGNING_APP
 
-file_extension = ".pdf"
-filetype = [("PDF Files", f"*{file_extension}")]
 
-title_window = "Signature App"
-pdf_filepath = ""
+title_window = SIGNING_APP
+pdf_filepath = BLANK_STRING
+pem_filepath = BLANK_STRING
 
 
 def gui_on():
@@ -23,12 +26,15 @@ def gui_on():
     btn_open = tk.Button(frm_buttons, text="Open PDF File")
     btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 
-    lbl_private_key = tk.Label(frm_buttons, text="Enter Private Key:")
-    ent_private_key = tk.Entry(frm_buttons, width=50)
-    lbl_private_key.grid(row=1, column=0, sticky="w", padx=5, pady=5)
-    ent_private_key.grid(row=2, column=0, padx=5, pady=5)
+    btn_pub_key = tk.Button(frm_buttons, text="Open Public Key")
+    btn_pub_key.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
-    btn_sign = tk.Button(frm_buttons, text="Verify PDF")
+    sct_pub_key = scrolledtext.ScrolledText(
+        frm_buttons, width=20, height=10, wrap='word', state='disabled')
+    sct_pub_key.insert(1.0, BLANK_STRING)
+    sct_pub_key.grid(row=2, column=0, sticky="w", padx=5, pady=5)
+
+    btn_sign = tk.Button(frm_buttons, text="Sign PDF")
     btn_sign.grid(row=3, column=0, sticky="ew", padx=5)
 
     pdfview = DocViewer(window)
@@ -37,34 +43,62 @@ def gui_on():
     def open_file():
         """Open a file for editing."""
         filepath = askopenfilename(
-            filetypes=filetype
+            filetypes=PDF_FILE_TYPE
         )
         if not filepath:
             return
 
-        pdfview.display_file(filepath)
         global pdf_filepath
         pdf_filepath = filepath
-        # with open(filepath, mode="r", encoding="utf-8") as input_file:
-        #     text = input_file.read()
-        #     txt_edit.insert(tk.END, text)
-        window.title(f"{title_window} - {pdf_filepath}")
+        pdfview.display_file(pdf_filepath)
+
+        window.title(f"{SIGNING_APP} - {pdf_filepath}")
+
+    def open_pub_key():
+        """Open the public key for signing in the PDF"""
+        filepath = askopenfilename(
+            filetypes=PEM_FILE_TYPE
+        )
+        if not filepath:
+            return
+
+        global pem_filepath
+        pem_filepath = filepath
+
+        with open(pem_filepath, "r") as file:
+            sct_pub_key.configure(state='normal')
+            sct_pub_key.insert(1.0, file.read())
+            sct_pub_key.configure(state='disabled')
 
     def save_file():
         """Save the current file as a new file."""
+        global pdf_filepath
+        if not pdf_filepath:
+            messagebox.showwarning(
+                "Warning", f"{PDF_FILE_TYPE[0][0]} should be inputted!")
+            return
+
+        global pem_filepath
+        if not pem_filepath:
+            messagebox.showwarning(
+                "Warning", f"Public key should be inputted!")
+            return
+
         filepath = asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=filetype,
+            filetypes=PDF_FILE_TYPE,
         )
         if not filepath:
             return
 
-        global pdf_filepath
+        ## Enter logic of signing here ##
+
         shutil.copyfile(pdf_filepath, filepath)
 
-        window.title(f"{title_window} - {filepath}")
+        messagebox.showinfo(
+            "Success", f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pem_filepath)}")
 
     btn_open.configure(command=open_file)
+    btn_pub_key.configure(command=open_pub_key)
     btn_sign.configure(command=save_file)
 
     window.mainloop()

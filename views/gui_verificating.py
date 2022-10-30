@@ -1,13 +1,14 @@
-import shutil
+import os
 import tkinter as tk
+from tkinter import messagebox
+import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
-from tkinter.filedialog import askopenfilename, asksaveasfilename
+from tkinter.filedialog import askopenfilename
+from constants.file import BLANK_STRING, PDF_FILE_TYPE, PEM_FILE_TYPE, VERIFYING_APP
 
-file_extension = ".pdf"
-filetype = [("PDF Files", f"*{file_extension}")]
-
-title_window = "Verification App"
-pdf_filepath = ""
+title_window = VERIFYING_APP
+pdf_filepath = BLANK_STRING
+pem_filepath = BLANK_STRING
 
 
 def gui_on():
@@ -23,10 +24,13 @@ def gui_on():
     btn_open = tk.Button(frm_buttons, text="Open PDF File")
     btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 
-    lbl_private_key = tk.Label(frm_buttons, text="Enter Private Key:")
-    ent_private_key = tk.Entry(frm_buttons, width=50)
-    lbl_private_key.grid(row=1, column=0, sticky="w", padx=5, pady=5)
-    ent_private_key.grid(row=2, column=0, padx=5, pady=5)
+    btn_pri_key = tk.Button(frm_buttons, text="Open Private Key")
+    btn_pri_key.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+
+    sct_pri_key = scrolledtext.ScrolledText(
+        frm_buttons, width=20, height=10, wrap='word', state='disabled')
+    sct_pri_key.insert(1.0, BLANK_STRING)
+    sct_pri_key.grid(row=2, column=0, sticky="w", padx=5, pady=5)
 
     btn_sign = tk.Button(frm_buttons, text="Verify PDF")
     btn_sign.grid(row=3, column=0, sticky="ew", padx=5)
@@ -40,29 +44,54 @@ def gui_on():
     def open_file():
         """Open a file for editing."""
         filepath = askopenfilename(
-            filetypes=filetype
+            filetypes=PDF_FILE_TYPE
         )
         if not filepath:
             return
 
-        pdfview.display_file(filepath)
         global pdf_filepath
         pdf_filepath = filepath
-        # with open(filepath, mode="r", encoding="utf-8") as input_file:
-        #     text = input_file.read()
-        #     txt_edit.insert(tk.END, text)
-        window.title(f"{title_window} - {pdf_filepath}")
+        pdfview.display_file(pdf_filepath)
+
+        window.title(f"{VERIFYING_APP} - {pdf_filepath}")
+
+    def open_pri_key():
+        """Open the public key for signing in the PDF"""
+        filepath = askopenfilename(
+            filetypes=PEM_FILE_TYPE
+        )
+        if not filepath:
+            return
+
+        global pem_filepath
+        pem_filepath = filepath
+
+        with open(pem_filepath, "r") as file:
+            sct_pri_key.configure(state='normal')
+            sct_pri_key.insert(1.0, file.read())
+            sct_pri_key.configure(state='disabled')
 
     def verify_file():
         """Verify the signatured file."""
-
         global pdf_filepath
+        if not pdf_filepath:
+            messagebox.showwarning(
+                "Warning", f"{PDF_FILE_TYPE[0][0]} should be inputted!")
+            return
 
-        window.title(f"{title_window} - {pdf_filepath}")
-        text_private_key = ent_private_key.get()
-        lbl_result.configure(text=f"Result: {text_private_key} {pdf_filepath}")
+        global pem_filepath
+        if not pem_filepath:
+            messagebox.showwarning(
+                "Warning", f"Private key should be inputted!")
+            return
+
+        ## Enter logic of verifying here ##
+
+        messagebox.showinfo(
+            "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
 
     btn_open.configure(command=open_file)
+    btn_pri_key.configure(command=open_pri_key)
     btn_sign.configure(command=verify_file)
 
     window.mainloop()
