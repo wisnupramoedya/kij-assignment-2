@@ -56,7 +56,7 @@ def gui_on():
         window.title(f"{VERIFYING_APP} - {pdf_filepath}")
 
     def open_pri_key():
-        """Open the public key for signing in the PDF"""
+        """Open the private key for verifying in the PDF"""
         filepath = askopenfilename(
             filetypes=PEM_FILE_TYPE
         )
