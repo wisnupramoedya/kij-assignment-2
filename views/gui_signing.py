@@ -92,11 +92,15 @@ def gui_on():
         if not filepath.endswith(PDF_FILE_EXTENSION):
             filepath += PDF_FILE_EXTENSION
 
-        Signing.sign(pdf_filepath, filepath, pub_filepath)
+        sign_mode = Signing.sign(pdf_filepath, filepath, pub_filepath)
+        if sign_mode == True:
+            messagebox.showinfo(
+                "Success",
+                f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
+        elif sign_mode == False:
+            messagebox.showwarning(
+                "Warning", f"File {os.path.basename(pdf_filepath)} has been signed before!")
 
-        messagebox.showinfo(
-            "Success",
-            f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
 
     btn_open.configure(command=open_file)
     btn_pub_key.configure(command=open_pub_key)
