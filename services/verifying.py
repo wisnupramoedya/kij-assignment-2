@@ -7,7 +7,7 @@ from encryption import Encryption
 class Verifying:
     @staticmethod
     def verify(path_file: str, path_key: str):
-        Verifying.detach_pdf_2(path_file)
+        Verifying.detach_pdf(path_file)
         f = open("digital_signature.txt", "br")
         digital_signature = f.read()
         print(digital_signature.decode())
@@ -25,21 +25,7 @@ class Verifying:
             return False
 
     @staticmethod
-    def detach_pdf(path_file: str):
-        doc = fitz.open(path_file)
-        xref = doc.page_xref(0)
-        #print(doc.xref_get_key(xref, 'Keys')[1])
-        sign = doc.xref_get_key(xref, 'Keys')[1]
-        text_file = open('testcase/digital_signature.txt', 'w')
-        text_file.write(sign)
-        text_file.close()
-    
-        # doc.xref_set_key(xref, 'Keys', 'null')
-        # doc.save(original_filepath + '.orig')
-        # os.remove(path_file)
-
-    @staticmethod
-    def detach_pdf_2(filepath: str):
+    def detach_pdf(filepath: str):
         data = b''
         with open(filepath, 'br') as fp:
             lines = fp.readlines()
@@ -54,4 +40,4 @@ class Verifying:
                 f_ori.write(data)
 
 
-print(Verifying.verify(path_file="../testcase/Ethereum-Whitepaper.pdf", path_key="../testcase/test-private-key.pem"))
+print(Verifying.verify(path_file="testcase/Ethereum-Whitepaper.pdf", path_key="testcase/test-private-key.pem"))

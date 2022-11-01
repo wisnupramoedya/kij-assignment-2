@@ -18,25 +18,10 @@ class Signing:
 
     @staticmethod
     def sign(path_file: str, path_key: str):
-        # Signing.keep_orig_file(path_file)
-        # os.remove(path_file)
-        # os.rename(path_file + '.orig', path_file)
-        Signing.attach_pdf_2(path_file, Signing.get_digital_signature(path_file=path_file, path_key=path_key))
-
-    # @staticmethod
-    # def attach_pdf(path_file: str, digital_signature: str):
-    #     doc = fitz.open(path_file)
-    #     xref = doc.page_xref(0)
-    #     doc.xref_set_key(xref, 'Keys', '(' + digital_signature + ')')
-    #     doc.save(path_file + '.hashed')
-    #     os.remove(path_file)
-    #
-    # def keep_orig_file(path_file: str):
-    #     doc = fitz.open(path_file)
-    #     doc.save(path_file + '.orig')
+        Signing.attach_pdf(path_file, Signing.get_digital_signature(path_file=path_file, path_key=path_key))
 
     @staticmethod
-    def attach_pdf_2(filepath: str, digital_signature: str):
+    def attach_pdf(filepath: str, digital_signature: str):
         attachment = bytes(f'<</Key /Contents<{digital_signature}>>>\r\n', 'UTF-8')
         print(attachment)
         position = 0
@@ -71,6 +56,6 @@ class Signing:
 
 # sign = Signing.get_digital_signature("../testcase/test-paper.pdf", "../testcase/test-public-key.pub")
 # print(sign)
-Signing.sign("../testcase/Ethereum-Whitepaper.pdf", "../testcase/test-public-key.pub")
+Signing.sign("testcase/Ethereum-Whitepaper.pdf", "testcase/test-public-key.pub")
 
 # Signing.sign(path_file="testcase/test-1_4_copy.pdf", path_key="testcase/test-public-key.pub")
