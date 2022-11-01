@@ -7,8 +7,23 @@ In this project we created 2 files which have different functions. The first pro
 
 ## Project Overview
 
-The image below is the interface of the program. When starting the project, it just needs ... steps to use this 2 programs. The features available are:
-    ...
+The image below is the interface of the first program. When starting the signing program, it just needs 3 steps to use this program. The features available are:
+  1. Open the PDF file you want to sign
+  2. Open the public key file (Optional)
+  3. Press sign PDF and choose where you want to save the signed PDF
+
+![image1](image1)
+
+For the animation, you could check this animation.
+
+The image below is the interface of the second program. When starting the signing program, it just needs 3 steps to use this program. The features available are:
+  1. Open the PDF file you want to verify
+  2. Open the private key file
+  3. Press verify PDF
+
+![image2](image2)
+
+For the animation, you could check this animation.
 
 ## Collaborators
 
