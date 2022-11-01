@@ -1,8 +1,6 @@
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 
-nonce = b"\x1aB!}\xc6Z8J\xce\x00\xc7\xdd\x9ag\x1e\xd1"
-
 
 class Encryption:
     @staticmethod
