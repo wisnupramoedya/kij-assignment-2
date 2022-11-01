@@ -1,11 +1,10 @@
-import shutil
 import os
 import tkinter as tk
 from tkinter import messagebox
 import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
-from constants.file import BLANK_STRING, PDF_FILE_TYPE, PUB_FILE_TYPE, SIGNING_APP
+from constants.file import *
 from services.signing import Signing
 
 title_window = SIGNING_APP
@@ -90,14 +89,14 @@ def gui_on():
         if not filepath:
             return
 
-        ## Enter logic of signing here ##
+        if not filepath.endswith(PDF_FILE_EXTENSION):
+            filepath += PDF_FILE_EXTENSION
 
         Signing.sign(pdf_filepath, filepath, pub_filepath)
 
-        # shutil.copyfile(pdf_filepath, filepath)
-
         messagebox.showinfo(
-            "Success", f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
+            "Success",
+            f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
 
     btn_open.configure(command=open_file)
     btn_pub_key.configure(command=open_pub_key)

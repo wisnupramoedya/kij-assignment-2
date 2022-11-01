@@ -4,7 +4,8 @@ from tkinter import messagebox
 import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename
-from constants.file import BLANK_STRING, PDF_FILE_TYPE, PEM_FILE_TYPE, VERIFYING_APP
+from constants.file import *
+from constants.mode import *
 from services.verifying import Verifying
 
 title_window = VERIFYING_APP
@@ -74,6 +75,12 @@ def gui_on():
 
     def verify_file():
         """Verify the signatured file."""
+        try:
+            os.remove('digital_signature.txt')
+            os.remove('original_file.pdf')
+        except FileNotFoundError:
+            pass
+
         global pdf_filepath
         if not pdf_filepath:
             messagebox.showwarning(
@@ -86,14 +93,16 @@ def gui_on():
                 "Warning", f"Private key should be inputted!")
             return
 
-        ## Enter logic of verifying here ##
-
-        if (Verifying.verify(path_file=pdf_filepath, path_key=pem_filepath)):
-            messagebox.showinfo(
-                "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
-        else:
+        verify_mode = Verifying.verify(path_file=pdf_filepath, path_key=pem_filepath)
+        if verify_mode == SIGNATURE_NOT_FOUND:
             messagebox.showerror(
                 "Error", f"File {os.path.basename(pdf_filepath)} is not signatured")
+        elif verify_mode == SIGNATURE_NOT_MATCH:
+            messagebox.showerror(
+                "Success", f"File {os.path.basename(pdf_filepath)} is not match with private key")
+        elif verify_mode == SIGNATURE_MATCH:
+            messagebox.showinfo(
+                "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
 
     btn_open.configure(command=open_file)
     btn_pri_key.configure(command=open_pri_key)

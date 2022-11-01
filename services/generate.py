@@ -1,5 +1,3 @@
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization
 from datetime import datetime
 import random
 import string
@@ -16,14 +14,14 @@ rand = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 class Generate:
     @staticmethod
     def generate_private_key():
-        private_key_file = open(date_time + "_" + rand + "_privkey.pem", "bw")
+        private_key_file = open("testcase/" + date_time + "_" + rand + "_privkey.pem", "bw")
         private_key_file.write(key.exportKey("PEM"))
         private_key_file.close()
         return "Done"
 
     @staticmethod
     def generate_public_key():
-        public_key_file = open(date_time + "_" + rand + "_pubkey.pub", "wb")
+        public_key_file = open("testcase/" + date_time + "_" + rand + "_pubkey.pub", "wb")
         public_key_file.write(key.public_key().exportKey("PEM"))
         public_key_file.close()
         return "Done"

@@ -3,7 +3,7 @@
 Created with :gift_heart: by Keluarga Kosimp
 
 ## Introduction
-In this project we created 2 files which have different functions. The first program is to add a digital signature to a PDF file, the user can input the private key to the program to add the digital signature, but if the private key is not inputted into the program, the program will automatically generate the public key and private key for the user to use. The second program is to checks the validation of a digital signature where the user is also required to input the public key.
+In this project we created 2 files which have different functions. The first program is to add a digital signature to a PDF file, the user can input the private key to the program to add the digital signature, but if the private key is not inputted into the program, the program will automatically generate the public key and private key for the user to use. The second program is checking the validation of a digital signature where the user is also required to input the public key.
 
 ## Project Overview
 
@@ -63,7 +63,12 @@ pip3 freeze > requirements.txt
 ./venv/Scripts/activate
 ```
 
-2. Start the program after activate the virtual env.
+2. Before running the program, if you don't have any pair key, run generator pair_key.
+```
+python services/generate.py
+```
+
+3. Start the program after activate the virtual env.
 
 ```
 # for signing
