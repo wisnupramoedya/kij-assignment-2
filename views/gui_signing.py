@@ -6,7 +6,7 @@ import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from constants.file import BLANK_STRING, PDF_FILE_TYPE, PUB_FILE_TYPE, SIGNING_APP
-
+from services.signing import Signing
 
 title_window = SIGNING_APP
 pdf_filepath = BLANK_STRING
@@ -92,7 +92,9 @@ def gui_on():
 
         ## Enter logic of signing here ##
 
-        shutil.copyfile(pdf_filepath, filepath)
+        Signing.sign(pdf_filepath, filepath, pub_filepath)
+
+        # shutil.copyfile(pdf_filepath, filepath)
 
         messagebox.showinfo(
             "Success", f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")

@@ -5,6 +5,7 @@ import tkinter.scrolledtext as scrolledtext
 from tkdocviewer import *
 from tkinter.filedialog import askopenfilename
 from constants.file import BLANK_STRING, PDF_FILE_TYPE, PEM_FILE_TYPE, VERIFYING_APP
+from services.verifying import Verifying
 
 title_window = VERIFYING_APP
 pdf_filepath = BLANK_STRING
@@ -87,8 +88,12 @@ def gui_on():
 
         ## Enter logic of verifying here ##
 
-        messagebox.showinfo(
-            "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
+        if (Verifying.verify(path_file=pdf_filepath, path_key=pem_filepath)):
+            messagebox.showinfo(
+                "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
+        else:
+            messagebox.showerror(
+                "Error", f"File {os.path.basename(pdf_filepath)} is not signatured")
 
     btn_open.configure(command=open_file)
     btn_pri_key.configure(command=open_pri_key)

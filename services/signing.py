@@ -6,7 +6,6 @@ import pickle
 from hashing import Hashing
 from encryption import Encryption
 
-
 class Signing:
     @staticmethod
     def get_digital_signature(path_file: str, path_key: str) -> str:
@@ -17,11 +16,11 @@ class Signing:
         return str_ds
 
     @staticmethod
-    def sign(path_file: str, path_key: str):
-        Signing.attach_pdf(path_file, Signing.get_digital_signature(path_file=path_file, path_key=path_key))
+    def sign(path_file: str,  path_target: str, path_key: str):
+        Signing.attach_pdf(path_file, path_target, Signing.get_digital_signature(path_file=path_file, path_key=path_key))
 
     @staticmethod
-    def attach_pdf(filepath: str, digital_signature: str):
+    def attach_pdf(filepath: str, path_target: str, digital_signature: str):
         attachment = bytes(f'<</Key /Contents<{digital_signature}>>>\r\n', 'UTF-8')
         print(attachment)
         position = 0
@@ -51,11 +50,11 @@ class Signing:
         for i, line in enumerate(lines):
             if i != len(lines):
                 data = data + line
-        with open(filepath, 'wb+') as fp:
+        with open(path_target, 'wb+') as fp:
             fp.write(data)
 
 # sign = Signing.get_digital_signature("../testcase/test-paper.pdf", "../testcase/test-public-key.pub")
 # print(sign)
-Signing.sign("testcase/Ethereum-Whitepaper.pdf", "testcase/test-public-key.pub")
+Signing.sign("testcase/test-1_3.pdf", "testcase/test-1_3_hashed.pdf","testcase/test-public-key.pub")
 
 # Signing.sign(path_file="testcase/test-1_4_copy.pdf", path_key="testcase/test-public-key.pub")
