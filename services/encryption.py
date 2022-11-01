@@ -21,10 +21,10 @@ class Encryption:
         return cipher.decrypt(data)
 
 
-# public_key_filepath = "../testcase/test-public-key.pub"
-# private_key_filepath = "../testcase/test-private-key.pem"
+# public_key_filepath = "testcase/test-public-key.pub"
+# private_key_filepath = "testcase/test-private-key.pem"
 # plain_text = "Hello Signing".encode()
-#
+
 # print(plain_text)
 # cipher_text: bytes = Encryption.encrypt(plain_text, public_key_filepath)
 # print(cipher_text)
