@@ -23,9 +23,11 @@ The image below is the interface of the second program. When starting the verifi
   2. Open the private key file
   3. Press verify PDF
 
-![gif2](gif2)
+![image2](image2)
 
 For the animation, you could check this animation.
+
+![gif2](gif2)
 
 ## Collaborators
 
