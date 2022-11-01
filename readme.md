@@ -16,12 +16,14 @@ The image below is the interface of the first program. When starting the signing
 
 For the animation, you could check this animation.
 
-The image below is the interface of the second program. When starting the signing program, it just needs 3 steps to use this program. The features available are:
+![gif1](gif1)
+
+The image below is the interface of the second program. When starting the verificating program, it just needs 3 steps to use this program. The features available are:
   1. Open the PDF file you want to verify
   2. Open the private key file
   3. Press verify PDF
 
-![image2](image2)
+![gif2](gif2)
 
 For the animation, you could check this animation.
 
