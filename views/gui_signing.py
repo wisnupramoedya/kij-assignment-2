@@ -6,6 +6,7 @@ from tkdocviewer import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from constants.file import *
 from services.signing import Signing
+from services.generate import Generate
 
 title_window = SIGNING_APP
 pdf_filepath = BLANK_STRING
@@ -80,8 +81,9 @@ def gui_on():
         global pub_filepath
         if not pub_filepath:
             messagebox.showwarning(
-                "Warning", f"Public key should be inputted!")
-            return
+                "Warning", f"Blank public key. Pair key will be generated in folder testcase automatically!")
+            pub_filepath = Generate.generate_public_key()
+            Generate.generate_private_key()
 
         filepath = asksaveasfilename(
             filetypes=PDF_FILE_TYPE,
@@ -93,14 +95,13 @@ def gui_on():
             filepath += PDF_FILE_EXTENSION
 
         sign_mode = Signing.sign(pdf_filepath, filepath, pub_filepath)
-        if sign_mode == True:
+        if sign_mode:
             messagebox.showinfo(
                 "Success",
                 f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
-        elif sign_mode == False:
+        else:
             messagebox.showwarning(
                 "Warning", f"File {os.path.basename(pdf_filepath)} has been signed before!")
-
 
     btn_open.configure(command=open_file)
     btn_pub_key.configure(command=open_pub_key)

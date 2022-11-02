@@ -14,18 +14,20 @@ rand = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 class Generate:
     @staticmethod
     def generate_private_key():
-        private_key_file = open("testcase/" + date_time + "_" + rand + "_privkey.pem", "bw")
+        filepath = "testcase/" + date_time + "_" + rand + "_privkey.pem"
+        private_key_file = open(filepath, "bw")
         private_key_file.write(key.exportKey("PEM"))
         private_key_file.close()
-        return "Done"
+        return filepath
 
     @staticmethod
     def generate_public_key():
-        public_key_file = open("testcase/" + date_time + "_" + rand + "_pubkey.pub", "wb")
+        filepath = "testcase/" + date_time + "_" + rand + "_pubkey.pub"
+        public_key_file = open(filepath, "wb")
         public_key_file.write(key.public_key().exportKey("PEM"))
         public_key_file.close()
-        return "Done"
+        return filepath
 
 
-Generate.generate_private_key()
-Generate.generate_public_key()
+# Generate.generate_private_key()
+# Generate.generate_public_key()

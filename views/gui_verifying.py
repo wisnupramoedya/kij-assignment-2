@@ -96,13 +96,13 @@ def gui_on():
         verify_mode = Verifying.verify(path_file=pdf_filepath, path_key=pem_filepath)
         if verify_mode == SIGNATURE_NOT_FOUND:
             messagebox.showerror(
-                "Error", f"File {os.path.basename(pdf_filepath)} is not signatured")
+                "Error", f"File {os.path.basename(pdf_filepath)} does not have any signature")
         elif verify_mode == SIGNATURE_NOT_MATCH:
             messagebox.showerror(
                 "Success", f"File {os.path.basename(pdf_filepath)} is not match with private key")
         elif verify_mode == SIGNATURE_MATCH:
             messagebox.showinfo(
-                "Success", f"File {os.path.basename(pdf_filepath)} is signatured")
+                "Success", f"File {os.path.basename(pdf_filepath)}'s signature match with private key")
 
     btn_open.configure(command=open_file)
     btn_pri_key.configure(command=open_pri_key)

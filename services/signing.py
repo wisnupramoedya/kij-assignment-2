@@ -16,9 +16,9 @@ class Signing:
 
     @staticmethod
     def sign(path_file: str, path_target: str, path_key: str) -> bool:
-        test = Signing.attach_pdf(path_file, path_target,
-                           Signing.get_digital_signature(path_file=path_file, path_key=path_key))
-        if test:
+        is_attached = Signing.attach_pdf(path_file, path_target,
+                                         Signing.get_digital_signature(path_file=path_file, path_key=path_key))
+        if is_attached:
             return True
         else:
             return False
