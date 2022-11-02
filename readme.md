@@ -12,22 +12,22 @@ The image below is the interface of the first program. When starting the signing
   2. Open the public key file (**optional**)
   3. Press **Sign PDF** and choose where you want to save the signed PDF
 
-![image1](image1)
+![Signing App Image](docs/signing-app.png)
 
 For make things easier, you can check this animation.
 
-![gif1](gif1)
+![Signing App Animation](docs/signing-app.gif)
 
 The image below is the interface of the second program. When starting the verifying program, it just needs 3 steps to use this program. The features available are:
   1. Open the PDF file you want to verify
   2. Open the private key file
   3. Press **Verify PDF**
 
-![image2](image2)
+![Verifying App Image](docs/verifying-app.png)
 
 For make things easier, you can check this animation.
 
-![gif2](gif2)
+![Verifying App Animation](docs/verifying-app.gif)
 
 ## Collaborators
 
@@ -37,6 +37,11 @@ For make things easier, you can check this animation.
 - [05111940000175 - Muhammad Daffa](https://github.com/daffainfo)
 
 ## Requirements
+- Python 3.9+
+
+- Ghostscript 
+
+Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) for running PDF on GUI.
 
 ## How to Use The Project
 
@@ -72,8 +77,6 @@ pip install -r requirements.txt
 pip3 freeze > requirements.txt
 ```
 
-6. Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) for running PDF on GUI.
-
 ### How to Run
 
 1. Activate virtual env.
@@ -94,7 +97,7 @@ python services/generate.py
 python signing.py
 
 # For verification
-python verificating.py
+python verifying.py
 ```
 
 ## Author's Note
