@@ -13,8 +13,3 @@ class Hashing:
             sha.update(data)
         f.close()
         return sha.hexdigest().encode()
-
-
-# filepath = "../testcase/test-paper.pdf"
-#
-# print(Hashing.hash_sha256(filepath))

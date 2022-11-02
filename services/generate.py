@@ -27,7 +27,3 @@ class Generate:
         public_key_file.write(key.public_key().exportKey("PEM"))
         public_key_file.close()
         return filepath
-
-
-# Generate.generate_private_key()
-# Generate.generate_public_key()

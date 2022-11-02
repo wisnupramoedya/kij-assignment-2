@@ -48,5 +48,3 @@ class Verifying:
             with open('original_file.pdf', 'wb') as f_ori:
                 f_ori.write(data)
             return True
-
-# print(Verifying.verify(path_file="testcase/Ethereum-Whitepaper.pdf", path_key="testcase/test-private-key.pem"))
