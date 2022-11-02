@@ -49,31 +49,31 @@ Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) for running 
 
 1. At very first initialization, create virtual env.
 
-```
+```shell
 python -m venv venv
 ```
 
 2. Activate virtual env.
 
-```
+```shell
 ./venv/Scripts/activate
 ```
 
 3. Check where the Python refers to (run the code below). If it is in `{this_folder}/venv/Scripts`, then it should be correct.
 
-```
+```shell
 python -c "import os, sys; print(os.path.dirname(sys.executable))"
 ```
 
 4. Install the requirements needed.
 
-```
+```shell
 pip install -r requirements.txt
 ```
 
 5. If you want to create/update _requirements.txt_, use `freeze`.
 
-```
+```shell
 pip3 freeze > requirements.txt
 ```
 
@@ -81,24 +81,36 @@ pip3 freeze > requirements.txt
 
 1. Activate virtual env.
 
-```
+```shell
 ./venv/Scripts/activate
 ```
 
 2. Before running the program, if you don't have any pair key, run generator pair key.
-```
+```shell
 python services/generate.py
 ```
 
 3. Start the program after activate the virtual env.
 
-```
+```shell
 # For signing
 python signing.py
 
 # For verification
 python verifying.py
 ```
+
+4. You could also generate the binary file by pyinstaller.
+```shell
+# For signing
+pyinstaller signing.py --onefile -w
+
+# For verification
+pyinstaller verifying.py --onefile -w
+```
+
+### Release
+1. For Windows user, you could get the binary file for the programs [here](https://github.com/wisnupramoedya/kij-assignment-2/releases)
 
 ## Author's Note
 
