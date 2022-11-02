@@ -4,3 +4,7 @@ venv
 
 digital_signature.txt
 original_file.pdf
+
+build
+dist
+*.spec
