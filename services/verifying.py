@@ -1,7 +1,8 @@
 import os
 
+from Crypto.PublicKey import RSA
+from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
 from services.hashing import Hashing
-from services.encryption import Encryption
 from constants.mode import *
 
 
@@ -9,23 +10,29 @@ class Verifying:
     @staticmethod
     def verify(path_file: str, path_key: str):
         if not Verifying.detach_pdf(path_file):
-            return SIGNATURE_NOT_FOUND
+            try:
+                os.remove('original_file.pdf')
+            finally:
+                return SIGNATURE_NOT_FOUND
         f = open("digital_signature.txt", "br")
         digital_signature = f.read()
-
+        original_hash = Hashing.hash_sha256('original_file.pdf')
+        digital_signature = digital_signature.decode()
         try:
-            signature_hash = Encryption.decrypt(data=bytes.fromhex(digital_signature.decode()), key_filepath=path_key)
+            key = open(path_key, 'r')
+            PKCS115_SigScheme(RSA.import_key(key.read())).verify(original_hash, bytes.fromhex(digital_signature))
+            key.close()
+            return SIGNATURE_MATCH
         except ValueError:
             return SIGNATURE_NOT_MATCH
-
-        original_hash = Hashing.hash_sha256('original_file.pdf')
-        f.close()
-        os.remove('digital_signature.txt')
-        os.remove('original_file.pdf')
-        if signature_hash == original_hash:
-            return SIGNATURE_MATCH
-        else:
-            return SIGNATURE_NOT_MATCH
+        finally:
+            f.close()
+            os.remove('digital_signature.txt')
+            os.remove('original_file.pdf')
+        # if signature_hash == original_hash:
+        #     return SIGNATURE_MATCH
+        # else:
+        #     return SIGNATURE_NOT_MATCH
 
     @staticmethod
     def detach_pdf(filepath: str) -> bool:

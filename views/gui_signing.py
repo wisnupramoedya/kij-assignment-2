@@ -26,7 +26,7 @@ def gui_on():
     btn_open = tk.Button(frm_buttons, text="Open PDF File")
     btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 
-    btn_pub_key = tk.Button(frm_buttons, text="Open Public Key")
+    btn_pub_key = tk.Button(frm_buttons, text="Open Private Key")
     btn_pub_key.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
     sct_pub_key = scrolledtext.ScrolledText(
@@ -55,9 +55,9 @@ def gui_on():
         window.title(f"{SIGNING_APP} - {pdf_filepath}")
 
     def open_pub_key():
-        """Open the public key for signing in the PDF"""
+        """Open the private key for signing in the PDF"""
         filepath = askopenfilename(
-            filetypes=PUB_FILE_TYPE
+            filetypes=PEM_FILE_TYPE
         )
         if not filepath:
             return
@@ -81,9 +81,8 @@ def gui_on():
         global pub_filepath
         if not pub_filepath:
             messagebox.showwarning(
-                "Warning", f"Blank public key. Pair key will be generated in folder testcase automatically!")
-            pub_filepath = Generate.generate_public_key()
-            Generate.generate_private_key()
+                "Warning", f"Blank private key. Pair key will be generated in folder testcase automatically!")
+            pub_filepath = Generate.generate_keypair()
 
         filepath = asksaveasfilename(
             filetypes=PDF_FILE_TYPE,
