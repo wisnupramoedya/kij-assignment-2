@@ -10,7 +10,7 @@ from services.generate import Generate
 
 title_window = SIGNING_APP
 pdf_filepath = BLANK_STRING
-pub_filepath = BLANK_STRING
+pem_filepath = BLANK_STRING
 
 
 def gui_on():
@@ -26,7 +26,7 @@ def gui_on():
     btn_open = tk.Button(frm_buttons, text="Open PDF File")
     btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 
-    btn_pub_key = tk.Button(frm_buttons, text="Open Public Key")
+    btn_pub_key = tk.Button(frm_buttons, text="Open Private Key")
     btn_pub_key.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
     sct_pub_key = scrolledtext.ScrolledText(
@@ -57,15 +57,15 @@ def gui_on():
     def open_pub_key():
         """Open the public key for signing in the PDF"""
         filepath = askopenfilename(
-            filetypes=PUB_FILE_TYPE
+            filetypes=PEM_FILE_TYPE
         )
         if not filepath:
             return
 
-        global pub_filepath
-        pub_filepath = filepath
+        global pem_filepath
+        pem_filepath = filepath
 
-        with open(pub_filepath, "r") as file:
+        with open(pem_filepath, "r") as file:
             sct_pub_key.configure(state='normal')
             sct_pub_key.insert(1.0, file.read())
             sct_pub_key.configure(state='disabled')
@@ -78,12 +78,12 @@ def gui_on():
                 "Warning", f"{PDF_FILE_TYPE[0][0]} should be inputted!")
             return
 
-        global pub_filepath
-        if not pub_filepath:
+        global pem_filepath
+        if not pem_filepath:
             messagebox.showwarning(
-                "Warning", f"Blank public key. Pair key will be generated in folder testcase automatically!")
-            pub_filepath = Generate.generate_public_key()
-            Generate.generate_private_key()
+                "Warning", f"Blank private key. Pair key will be generated in folder testcase automatically!")
+            Generate.generate_public_key()
+            pem_filepath = Generate.generate_private_key()
 
         filepath = asksaveasfilename(
             filetypes=PDF_FILE_TYPE,
@@ -94,11 +94,11 @@ def gui_on():
         if not filepath.endswith(PDF_FILE_EXTENSION):
             filepath += PDF_FILE_EXTENSION
 
-        sign_mode = Signing.sign(pdf_filepath, filepath, pub_filepath)
+        sign_mode = Signing.sign(pdf_filepath, filepath, pem_filepath)
         if sign_mode:
             messagebox.showinfo(
                 "Success",
-                f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pub_filepath)}")
+                f"File {os.path.basename(pdf_filepath)} is successfully signed with {os.path.basename(pem_filepath)}")
         else:
             messagebox.showwarning(
                 "Warning", f"File {os.path.basename(pdf_filepath)} has been signed before!")
