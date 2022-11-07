@@ -20,7 +20,7 @@ class Generate:
 
     @staticmethod
     def generate_private_key():
-        filepath = "testcase/" + date_time + "_" + rand + "_privkey.pem"
+        filepath = "keypair/" + date_time + "_" + rand + "_privkey.pem"
         private_key_file = open(filepath, "bw")
         private_key_file.write(key.exportKey("PEM"))
         private_key_file.close()
@@ -28,7 +28,7 @@ class Generate:
 
     @staticmethod
     def generate_public_key():
-        filepath = "testcase/" + date_time + "_" + rand + "_pubkey.pub"
+        filepath = "keypair/" + date_time + "_" + rand + "_pubkey.pub"
         public_key_file = open(filepath, "wb")
         public_key_file.write(key.public_key().exportKey("PEM"))
         public_key_file.close()
