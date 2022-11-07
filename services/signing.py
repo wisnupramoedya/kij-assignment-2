@@ -17,4 +17,4 @@ class Signing:
             sign.write(signature)
         return True
 
-Signing.sign("../testcase/test-1_3.pdf", "../testcase/test-1_3_signed.pdf", "../testcase/2022-11-07-12-39-30_J0A9A_privkey.pem")
+# Signing.sign("../testcase/test-1_3.pdf", "../testcase/test-1_3_signed.pdf", "../testcase/2022-11-07-12-39-30_J0A9A_privkey.pem")
