@@ -1,50 +1,30 @@
-import os
-
-from services.hashing import Hashing
-from services.encryption import Encryption
-from constants.mode import *
+from Crypto.PublicKey import RSA
+from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
+from Crypto.Hash import SHA256
+import shutil
 
 
 class Verifying:
     @staticmethod
-    def verify(path_file: str, path_key: str):
-        if not Verifying.detach_pdf(path_file):
-            return SIGNATURE_NOT_FOUND
-        f = open("digital_signature.txt", "br")
-        digital_signature = f.read()
-
-        try:
-            signature_hash = Encryption.decrypt(data=bytes.fromhex(digital_signature.decode()), key_filepath=path_key)
-        except ValueError:
-            return SIGNATURE_NOT_MATCH
-
-        original_hash = Hashing.hash_sha256('original_file.pdf')
-        f.close()
-        os.remove('digital_signature.txt')
-        os.remove('original_file.pdf')
-        if signature_hash == original_hash:
-            return SIGNATURE_MATCH
-        else:
-            return SIGNATURE_NOT_MATCH
+    def get_signature(file):
+        with open(file, 'rb') as f:
+            f.seek(-256, 2)
+            return f.read()
 
     @staticmethod
-    def detach_pdf(filepath: str) -> bool:
-        is_found_content = False
-        data = b''
-        with open(filepath, 'br') as fp:
-            lines = fp.readlines()
-            for idx, line in enumerate(lines):
-                if line.__contains__(b'/Key /Contents'):
-                    is_found_content = True
-                    with open('digital_signature.txt', 'wb') as f_ds:
-                        ds = line.split(b'/Contents<')
-                        f_ds.write(ds[1][:-5])
-                else:
-                    data = data + line
-
-            if not is_found_content:
-                return False
-
-            with open('original_file.pdf', 'wb') as f_ori:
-                f_ori.write(data)
+    def verify(path_file: str, path_key: str) -> bool:
+        get_signature = Verifying.get_signature(path_file)
+        signed_file = open(path_file, "rb").read()
+        orig_file = signed_file[:-256]
+        hash = SHA256.new(orig_file)
+        keyPair = RSA.import_key(open(path_key).read())
+        verifier = PKCS115_SigScheme(keyPair)
+        try:
+            verifier.verify(hash, get_signature)
+            print("true")
             return True
+        except:
+            print("false")
+            return False
+
+Verifying.verify("../testcase/test-1_3_signed.pdf", "../testcase/2022-11-07-12-39-30_J0A9A_pubkey.pub")
