@@ -3,13 +3,13 @@
 Created with :gift_heart: by Keluarga Kosimp
 
 ## Introduction
-In this project we created 2 files which have different functions. The first program is to add a digital signature to a PDF file. The user can input the public key to the program to add the signature, but if the public key is not inputted into the program, the program will automatically generate the public key and private key for the user. The second program is checking the validation of a digital signature where the user is also required to input the private key.
+In this project we created 2 files which have different functions. The first program is to add a digital signature to a PDF file. The user can input the private key to the program to add the signature, but if the private key is not inputted into the program, the program will automatically generate the private key and public key for the user. The second program is checking the validation of a digital signature where the user is also required to input the public key.
 
 ## Project Overview
 
 The image below is the interface of the first program. When starting the signing program, it just needs 3 steps to use this program. The features available are:
   1. Open the PDF file you want to sign
-  2. Open the public key file (**optional**)
+  2. Open the private key file (**optional**)
   3. Press **Sign PDF** and choose where you want to save the signed PDF
 
 ![Signing App Image](docs/signing-app.png)
@@ -20,7 +20,7 @@ For make things easier, you can check this animation.
 
 The image below is the interface of the second program. When starting the verifying program, it just needs 3 steps to use this program. The features available are:
   1. Open the PDF file you want to verify
-  2. Open the private key file
+  2. Open the public key file
   3. Press **Verify PDF**
 
 ![Verifying App Image](docs/verifying-app.png)
