@@ -26,7 +26,7 @@ def gui_on():
     btn_open = tk.Button(frm_buttons, text="Open PDF File")
     btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 
-    btn_pri_key = tk.Button(frm_buttons, text="Open Private Key")
+    btn_pri_key = tk.Button(frm_buttons, text="Open Public Key")
     btn_pri_key.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
     sct_pri_key = scrolledtext.ScrolledText(
@@ -58,9 +58,9 @@ def gui_on():
         window.title(f"{VERIFYING_APP} - {pdf_filepath}")
 
     def open_pri_key():
-        """Open the private key for verifying in the PDF"""
+        """Open the public key for verifying in the PDF"""
         filepath = askopenfilename(
-            filetypes=PEM_FILE_TYPE
+            filetypes=PUB_FILE_TYPE
         )
         if not filepath:
             return
@@ -90,7 +90,7 @@ def gui_on():
         global pem_filepath
         if not pem_filepath:
             messagebox.showwarning(
-                "Warning", f"Private key should be inputted!")
+                "Warning", f"Public key should be inputted!")
             return
 
         verify_mode = Verifying.verify(path_file=pdf_filepath, path_key=pem_filepath)
@@ -99,10 +99,10 @@ def gui_on():
                 "Error", f"File {os.path.basename(pdf_filepath)} does not have any signature")
         elif verify_mode == SIGNATURE_NOT_MATCH:
             messagebox.showerror(
-                "Success", f"File {os.path.basename(pdf_filepath)} is not match with private key")
+                "Success", f"File {os.path.basename(pdf_filepath)} is not match with public key")
         elif verify_mode == SIGNATURE_MATCH:
             messagebox.showinfo(
-                "Success", f"File {os.path.basename(pdf_filepath)}'s signature match with private key")
+                "Success", f"File {os.path.basename(pdf_filepath)}'s signature match with public key")
 
     btn_open.configure(command=open_file)
     btn_pri_key.configure(command=open_pri_key)

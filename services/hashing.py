@@ -3,7 +3,7 @@ from Crypto.Hash import SHA256
 
 class Hashing:
     @staticmethod
-    def hash_sha256(path_file: str) -> bytes:
+    def hash_sha256(path_file: str):
         f = open(path_file, "br")
         sha = SHA256.new()
         while True:
@@ -12,4 +12,4 @@ class Hashing:
                 break
             sha.update(data)
         f.close()
-        return sha.hexdigest().encode()
+        return sha

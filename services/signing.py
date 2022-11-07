@@ -1,15 +1,19 @@
 import codecs
 import re
+from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
+from Crypto.PublicKey import RSA
 
 from services.hashing import Hashing
-from services.encryption import Encryption
+# from services.encryption import Encryption
 
 
 class Signing:
     @staticmethod
     def get_digital_signature(path_file: str, path_key: str) -> str:
         hashed_data = Hashing.hash_sha256(path_file=path_file)
-        digital_signature = Encryption.encrypt(data=hashed_data, key_filepath=path_key)
+        # digital_signature = Encryption.encrypt(data=hashed_data, key_filepath=path_key)
+        f = open(path_key, 'r')
+        digital_signature = PKCS115_SigScheme(RSA.import_key(f.read())).sign(hashed_data)
         hex_ds = codecs.encode(digital_signature, 'hex')
         str_ds = hex_ds.decode()
         return str_ds
@@ -42,7 +46,7 @@ class Signing:
             lines.append(lines[position - 1])
             lines[position - 1] = attachment
             fp.seek(0)
-        if re.search("<<\/Key \/Contents<", check_line.decode('UTF-8')):
+        if re.search("<</Key /Contents<", check_line.decode('UTF-8')):
             return False
         else:
             data = b''

@@ -13,6 +13,12 @@ rand = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
 
 class Generate:
     @staticmethod
+    def generate_keypair():
+        fp = Generate.generate_private_key()
+        Generate.generate_public_key()
+        return fp
+
+    @staticmethod
     def generate_private_key():
         filepath = "testcase/" + date_time + "_" + rand + "_privkey.pem"
         private_key_file = open(filepath, "bw")
