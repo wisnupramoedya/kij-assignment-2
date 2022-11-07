@@ -29,10 +29,6 @@ class Verifying:
             f.close()
             os.remove('digital_signature.txt')
             os.remove('original_file.pdf')
-        # if signature_hash == original_hash:
-        #     return SIGNATURE_MATCH
-        # else:
-        #     return SIGNATURE_NOT_MATCH
 
     @staticmethod
     def detach_pdf(filepath: str) -> bool:
