@@ -4,14 +4,12 @@ from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
 from Crypto.PublicKey import RSA
 
 from services.hashing import Hashing
-# from services.encryption import Encryption
 
 
 class Signing:
     @staticmethod
     def get_digital_signature(path_file: str, path_key: str) -> str:
         hashed_data = Hashing.hash_sha256(path_file=path_file)
-        # digital_signature = Encryption.encrypt(data=hashed_data, key_filepath=path_key)
         f = open(path_key, 'r')
         digital_signature = PKCS115_SigScheme(RSA.import_key(f.read())).sign(hashed_data)
         hex_ds = codecs.encode(digital_signature, 'hex')
