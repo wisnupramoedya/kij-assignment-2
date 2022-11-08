@@ -37,6 +37,12 @@ def gui_on():
     btn_sign = tk.Button(frm_buttons, text="Sign PDF")
     btn_sign.grid(row=3, column=0, sticky="ew", padx=5)
 
+    label = tk.Label(frm_buttons, text='Don\'t have keypair? \nGenerate keypair \nusing button below')
+    label.config(font=("Courier", 8))
+    label.grid(row=4, column=0, sticky="ew", padx=5, pady=(30, 0))
+    btn_generate_key = tk.Button(frm_buttons, text="Generate Keypair")
+    btn_generate_key.grid(row=5, column=0, sticky="ew", padx=5)
+
     pdfview = DocViewer(window)
     pdfview.grid(row=0, column=1, sticky="nsew")
 
@@ -102,8 +108,17 @@ def gui_on():
             messagebox.showwarning(
                 "Warning", f"File {os.path.basename(pdf_filepath)} has been signed before!")
 
+    def generate_keypair():
+        path = Generate.generate_keypair()
+        path = path.split('_privkey.')
+        if path:
+            messagebox.showinfo(
+                "Success",
+                f"Keypair is successfully generated at {path[0]}_privkey.pem and {path[0]}_pubkey.pub")
+
     btn_open.configure(command=open_file)
     btn_pub_key.configure(command=open_pub_key)
     btn_sign.configure(command=save_file)
+    btn_generate_key.configure(command=generate_keypair)
 
     window.mainloop()
