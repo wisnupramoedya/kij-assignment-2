@@ -85,7 +85,7 @@ pip3 freeze > requirements.txt
 ./venv/Scripts/activate
 ```
 
-2. Before running the program, if you don't have any pair key, run generator pair key.
+2. Before running the program, if you don't have any pair key, run generator pair key. Key also can be generated from GUI
 ```shell
 python services/generate.py
 ```
